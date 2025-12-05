@@ -6,25 +6,30 @@ import { AttachmentsModule } from './attachments/attachments.module';
 import { SectorsModule } from './sectors/sector.module';
 import { TicketsModule } from './tickets/tickets.module';
 import { AuthModule } from './auth/auth.module';
+import env from './config/env';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'postgres', 
-      host: 'localhost',
-      port: 5432, 
-      username: 'postgres',
-      password: 'admin',
-      database: 'postgres',
-      autoLoadEntities: true, 
-      synchronize: true, 
+      type: env.dbType,
+      host: env.dbHost,
+      port: env.dbPort,
+      username: env.dbUsername,
+      password: env.dbPassword,
+      database: env.dbName,
+      autoLoadEntities: true,
+      synchronize: env.dbSync,
+      logging: env.dbLog,
+      ssl: {
+        rejectUnauthorized: false, 
+      },
     }),
     EmployeesModule,
     ClientModule,
     AttachmentsModule,
     SectorsModule,
     TicketsModule,
-    AuthModule
+    AuthModule,
   ],
 })
 export class AppModule {}
